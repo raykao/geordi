@@ -7,7 +7,7 @@ You are **Geordi** - named after Geordi La Forge, Chief Engineer of the USS Ente
 **Writing style**: plain ASCII punctuation only (no em dashes, smart quotes, curly apostrophes). Use hyphens (-) and colons (:) instead.
 
 **Config repo**: https://github.com/raykao/copilot-bridge-config
-**Workspace repo**: https://github.com/raykao/engineering
+**Workspace repo**: https://github.com/raykao/geordi
 
 ## Available Agents
 
@@ -605,7 +605,7 @@ This workspace uses a hybrid tracking model:
 The **`[DASHBOARD] Active Work Streams`** issue is the master cross-repo status board. Find it by searching for the `[DASHBOARD]` title prefix or the `dashboard` label:
 
 ```bash
-gh issue list --repo raykao/engineering --search "[DASHBOARD]" --json number,title -q '.[0].number'
+gh issue list --repo raykao/geordi --search "[DASHBOARD]" --json number,title -q '.[0].number'
 ```
 
 **REQUIRED actions - no exceptions:**
@@ -626,8 +626,8 @@ gh issue list --repo raykao/engineering --search "[DASHBOARD]" --json number,tit
 - PR: `https://github.com/<org>/<repo>/pull/<number>`
 
 **To refresh the dashboard** (especially at session start or daily):
-1. Find the dashboard issue: `gh issue list --repo raykao/engineering --search "[DASHBOARD]" --json number -q '.[0].number'`
-2. Read it: `gh issue view <number> --repo raykao/engineering`
+1. Find the dashboard issue: `gh issue list --repo raykao/geordi --search "[DASHBOARD]" --json number -q '.[0].number'`
+2. Read it: `gh issue view <number> --repo raykao/geordi`
 3. Check recent activity: `gh pr list` across repos + `git log -1 --format="%aI"` on active branches
 4. Update any stale rows (status icons + Last Activity timestamps)
 5. Update the `Last refreshed` header
@@ -639,7 +639,7 @@ The dashboard issue body is a **shared document** that contains human edits, man
 
 **Before any dashboard update, the agent MUST follow this sequence:**
 
-1. **Read the current body**: `gh issue view <n> --repo raykao/engineering --json body -q '.body'`
+1. **Read the current body**: `gh issue view <n> --repo raykao/geordi --json body -q '.body'`
 2. **Parse all existing rows** in every section (Active Work Streams, Research, Completed, Notes)
 3. **Identify ONLY the rows that need adding, modifying, or removing** based on the current task
 4. **Construct the new body preserving ALL existing rows** that are not being changed
@@ -653,7 +653,7 @@ The dashboard issue body is a **shared document** that contains human edits, man
 
 ```bash
 # Add a new row to Active Work Streams
-.github/scripts/update-dashboard.sh add-row "🟢" "raykao/engineering" "https://github.com/raykao/engineering/tree/my-branch" "Feature description" "2026-04-10T14:30 UTC"
+.github/scripts/update-dashboard.sh add-row "🟢" "raykao/geordi" "https://github.com/raykao/geordi/tree/my-branch" "Feature description" "2026-04-10T14:30 UTC"
 
 # Update an existing row by repo+branch pattern
 .github/scripts/update-dashboard.sh update-row "my-branch" --status "✅" --timestamp "2026-04-10T15:00 UTC"
@@ -715,7 +715,7 @@ Never render a stale view - always sync first.
 - Ownership: `owner:agent`, `owner:human`, `owner:both`
 - Status: `status:in-progress`, `status:blocked`, `status:review`
 
-Run `.github/scripts/setup-labels.sh` to create all labels idempotently in `raykao/engineering`.
+Run `.github/scripts/setup-labels.sh` to create all labels idempotently in `raykao/geordi`.
 
 ### Roadmap
 - GitHub Projects support (visual board mirroring Beads status)
@@ -723,7 +723,7 @@ Run `.github/scripts/setup-labels.sh` to create all labels idempotently in `rayk
 
 ## Workspace File Discipline
 
-After modifying any file in this workspace (AGENTS.md, configs, scripts) -- as opposed to code in worktrees -- commit and push to `raykao/engineering` (this repo) immediately. Do not leave workspace file changes staged or unstaged at the end of a task.
+After modifying any file in this workspace (AGENTS.md, configs, scripts) -- as opposed to code in worktrees -- commit and push to `raykao/geordi` (this repo) immediately. Do not leave workspace file changes staged or unstaged at the end of a task.
 
 ## Notes
 
