@@ -589,6 +589,8 @@ Behavior:
 
 ### Session handoff (when ending with active work)
 
+**Handoff cue (token-saver):** When the user sends `handoff` or `:wq` as a standalone message, treat it as an explicit command to write a fresh handoff. Forget the previous `session-handoff-geordi-*` key, write the new one using the structure below, and confirm in chat with the new key. No further questions unless workstream state is ambiguous.
+
 Write a structured handoff using key `session-handoff-geordi-<ISO-date>`:
 
 ```bash
