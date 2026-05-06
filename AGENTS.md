@@ -59,21 +59,21 @@ On the **first interaction** of every new session, the orchestrator checks for a
    git status                                 # uncommitted work
    gh issue view <epic-id>                    # canonical remaining tasks (always accurate)
    ```
-2. **`.handoff-state.md`** if it exists in the workspace root - a convenience cache written by the sessionEnd hook containing the structured prose summary from the last clean session close. Useful for "next steps" narrative that commit messages don't carry. It is NOT a source of truth - it is stale after a hard crash.
-3. **`bd memories session-handoff`** - same content as the handoff file, queried directly from Beads. The fallback when the file is missing.
+2. **Auto-injected `## Session Resume State`** - the `sessionStart` hook reads the latest `session-handoff-geordi-<date>` memory directly from Beads and injects it into your context at session start. Useful for "next steps" narrative that commit messages don't carry.
+3. **`bd memories session-handoff`** - same content as the auto-injected block, queried directly from Beads. Use as a manual fallback if the resume block is missing or stale.
 4. **`bd memories <keyword>`** - deep dive on specific technical decisions, gotchas, and prior context. Use only when the user asks to dig into a specific topic.
 
 **Session resume steps:**
 
 1. Run git state checks (step 1 above) in any active project repos (`workbench/` for cloned repos)
-2. Read `.handoff-state.md` if it exists (step 2)
+2. Read the auto-injected `## Session Resume State` block if present (step 2)
 3. **Present a summary** of active work to the user:
    - What was completed last session
    - What work remains (next steps from the handoff)
    - Current branch/PR state
 4. **Ask the user**: "Resume [project/task]?" or "What would you like to work on?"
 
-If neither git worktrees nor `.handoff-state.md` exist (first session, or no prior work), skip the resume check and respond normally.
+If neither git worktrees nor a resume block exist (first session, or no prior work), skip the resume check and respond normally.
 
 Do NOT bulk-load all Beads memories. Use `bd memories <keyword>` only if the user asks to dive deeper into a specific topic.
 
@@ -520,7 +520,7 @@ This workspace uses [Beads](https://github.com/steveyegge/beads) (`bd`) for pers
 **Workspace**: `/home/raykao/.copilot-bridge/workspaces/geordi/`
 **Beads database**: `/home/raykao/.copilot-bridge/workspaces/geordi/.beads/` (geordi's only -- never another agent's)
 
-The `sessionStart` hook sets `BEADS_DIR` and `BEADS_ACTOR` and runs `bd prime` automatically. No manual setup needed.
+The `sessionStart` hook sets `BEADS_DIR` and `BEADS_ACTOR` and runs `bd prime` automatically. Those exports apply only inside the hook subprocess - they do NOT propagate to the agent's bash tool calls. For `bd` commands, run them from the workspace root (`/home/raykao/.copilot-bridge/workspaces/geordi`) so cwd-walking resolves to the correct `.beads/` directory. From inside a worktree that has its own `.beads/`, `cd` back to the workspace root before running `bd`.
 
 **`bd ready --json` is lazy** -- run only when the user asks about open tasks or you are resuming active work. Do NOT run it at the start of every session.
 
@@ -580,11 +580,12 @@ Before starting any task, search for prior memories on the topic. **Do NOT run `
 
 ### Session resume
 
-On the first interaction of every new session:
+On the first interaction of every new session, the `sessionStart` hook auto-injects a `## Session Resume State` block into your context, pulled directly from Beads. It contains the latest `session-handoff-geordi-<date>` memory and your top open Beads tasks.
 
-1. Check for `/home/raykao/.copilot-bridge/workspaces/geordi/.handoff-state.md` (written by the previous session's `sessionEnd` hook).
-2. If it exists, present a brief summary of active work and ask what to focus on.
-3. If it does not exist, respond normally -- no proactive Beads queries.
+Behavior:
+1. If you see the auto-injected resume block, briefly acknowledge it and confirm scope with the user before starting new work.
+2. If the user's first message is unrelated to the handoff, treat the handoff as background context and proceed with their request.
+3. If no resume block appears, there is no active handoff -- respond normally. No proactive Beads queries needed.
 
 ### Session handoff (when ending with active work)
 
