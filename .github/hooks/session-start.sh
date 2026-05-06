@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# Read JSON input from copilot-bridge: { "sessionId": "...", "channelId": "..." }
 input=$(cat)
 
 export PATH="/home/raykao/.local/bin:$PATH"
@@ -11,6 +12,7 @@ if command -v bd &>/dev/null; then
   bd prime >/dev/null 2>&1 || true
 fi
 
+# Load handoff state for auto-resume.
 HANDOFF_FILE="/home/raykao/.copilot-bridge/workspaces/geordi/.handoff-state.md"
 if [ ! -f "$HANDOFF_FILE" ] && command -v bd &>/dev/null; then
   HANDOFF=$(bd memories session-handoff 2>/dev/null || true)
