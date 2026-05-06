@@ -542,14 +542,28 @@ Any memory-worthy event:
   -> IF critical for cold-start: also call store_memory tool
 ```
 
+**`store_memory` gate - only fire if the fact meets ONE of these four criteria:**
+
+1. Needed to orient a brand-new session BEFORE the first Beads query
+   (e.g. active workstream names, key repo locations, critical conventions)
+2. An incident learning that prevents repeated mistakes across sessions
+3. A validated build/test/run command (confirmed to work)
+4. An environment/path/version detail that breaks things when wrong
+
+**NOT appropriate for `store_memory`:** active branch names (transient), task IDs,
+research findings, anything that changes session to session. Those go in Beads only.
+
 ### Memory discipline (REQUIRED)
 
-Call `bd remember` immediately -- not at the end of the session -- when any of the following occur:
+Call `bd remember` **immediately** -- not at the end of the session -- when any of the following occur:
 
 - A non-obvious technical decision is made
 - A gotcha, failure mode, or workaround is discovered
 - A configuration value or path is found to be critical or surprising
 - Any fact that would take >5 minutes to re-discover next session
+
+Immediate writes are primary. Any task completion checkpoint is a safety net only -- do
+not defer `bd remember` calls to the checkpoint if the trigger criteria are already met.
 
 When a decision is reversed or a fact becomes stale, remove it: `bd forget <key>`
 
