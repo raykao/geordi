@@ -28,15 +28,25 @@ entities. Same applies here.
 
 ### Layer 2: The Replicant Matrix
 
+The replicant matrix is what takes a soul (agent.md) and animates it - wrapping the raw
+intelligence substrate and the soul together into a functioning agent. In our world, that
+is the AI harness.
+
 | Bobiverse | Our Stack |
 |-----------|-----------|
-| Replicant matrix hardware | The LLM (the raw intelligence substrate - runs Bob's cognition) |
-| Switching matrix hardware | Switching model providers (GPT-5 vs Claude Sonnet vs Haiku) |
-| Matrix is remote from the vessel | LLM inference is a remote API call - the intelligence runs in a data center, not in the pod |
+| Replicant matrix | The AI harness (copilot-bridge, claude code, codex, opencode, openclaw, etc.) |
+| Matrix wrapping Bob's neural pattern | Harness wrapping LLM + agent.md into a running agent |
+| Raw neural processing hardware inside the matrix | The LLM - the compute substrate the matrix runs on (implementation detail) |
+| Different matrix hardware (same Bob) | Different harness (same agent.md, different behavior/capability) |
+| Matrix as the housing of the soul | Harness is what gives the soul a body to operate from |
 
-The same soul (`agent.md`) running on different matrix hardware will behave meaningfully
-differently - just as Bob would. The `/model` switch is literally changing the matrix
-substrate at runtime.
+The LLM alone is inert potential - raw compute with no direction. The soul alone is
+instructions with no execution environment. The harness is what brings them together
+into something that can perceive, reason, and act. That is the matrix.
+
+The "LLM-is-remote" problem dissolves here: the matrix doesn't care where the compute
+lives. Copilot-bridge calling a remote OpenAI endpoint is no different from a matrix
+chip calling a remote neural co-processor. The harness IS the matrix.
 
 ---
 
@@ -264,7 +274,7 @@ For teams that want to lean into this frame:
 | Term | Meaning |
 |------|---------|
 | Soul file | `agent.md` |
-| Matrix | The LLM (intelligence substrate) |
+| Matrix | The AI harness (copilot-bridge, claude code, codex, opencode, etc.) - wraps LLM + soul into a running agent |
 | AMI | Sub-agents broadly - purpose-built, stateless, launched on demand |
 | GUPPI | A specific narrow-scope AMI tightly coupled to Bob's workflow |
 | Bob / replicant | The primary general-purpose orchestrating agent (Geordi, daedalus, etc.) |
