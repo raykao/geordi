@@ -70,8 +70,8 @@ dimension that matters: embodiment in a digital landscape.
 
 | Bobiverse | Our Stack |
 |-----------|-----------|
-| Heaven probe chassis | Container / Kubernetes pod |
-| Ship systems (weapons, sensors, propulsion) | Sidecars (Envoy/SPIFFE = SCUT hardware, OTEL collector = sensor suite, Vault agent = secure storage) |
+| Von Neumann probe chassis | Container / Kubernetes pod |
+| Ship systems (weapons, sensors, propulsion) | Sidecars (Envoy/SPIFFE = SCUT hardware, OTEL collector = SUDDAR suite, Vault agent = secure storage) |
 | Vessel class / blueprint | Pod spec / container image |
 | Power budget | Pod resource limits (CPU, memory) |
 | Vessel destroyed, Bob survives (backup) | Pod destroyed, soul survives (agent.md in git + Beads memories) |
@@ -85,6 +85,25 @@ pattern enables.
 Different agent configs produce differently-equipped ships. A Geordi pod has engineering
 tools; a researcher pod might have browser + search sidecars; a dark-factory pod might
 run headless with no interactive tools at all.
+
+---
+
+### Layer 4b: The Von Neumann Platform
+
+The von Neumann probe is self-replicating - it can manufacture new probes from local
+materials. This is the defining property that elevates it above a simple spacecraft. In
+our world, that self-replication capability is the orchestration platform.
+
+| Bobiverse | Our Stack |
+|-----------|-----------|
+| Von Neumann replication capability | Kubernetes / container orchestrator |
+| Bob deciding to replicate | CI/CD pipeline triggered to instantiate a new Bob |
+| Probe manufacturing a new probe from local materials | Orchestrator scheduling a new pod from a spec |
+| Fleet of probes under coordination | Multi-agent deployment across a cluster |
+| Bob as fleet commander coordinating his replicants | Orchestrator agent (e.g. daedalus) directing sub-agents |
+
+The orchestration platform is what makes a single Bob into a civilization. Without it,
+you have one agent. With it, you have a self-propagating network.
 
 ---
 
@@ -109,24 +128,45 @@ a different star system. Bobs can be dispatched to distant systems to do work th
 
 ### Layer 6: SCUT - the Transport
 
-SCUT (Skippy Communication Using Tachyons) is infrastructure. Invisible to Bob in use -
-it just delivers packets.
+SCUT (Subspace Communications Universal Transceiver) is infrastructure. Invisible to Bob
+in use - it just delivers packets.
 
 | Bobiverse | Our Stack |
 |-----------|-----------|
 | SCUT hardware on each ship | Bridge daemon on each agent host / SPIFFE node agent |
-| Tachyon channel (FTL, point-to-point) | mTLS channel between bridge instances |
+| Subspace channel (point-to-point) | mTLS channel between bridge instances |
 | SCUT address / location identifier | SPIFFE SVID (workload identity x.509) |
-| Encryption inherent to tachyon physics | mTLS + SPIFFE-issued certificates |
+| Encryption inherent to subspace physics | mTLS + SPIFFE-issued certificates |
 | SCUT relay stations | Message broker / relay nodes (NATS, RabbitMQ, or similar) |
 | Latency due to distance | Real network latency + async message delivery |
 
 The agent never hand-rolls connection management. Bridge handles it. Bob just calls out
-and the response comes back - he doesn't think about tachyon modulation.
+and the response comes back - he doesn't think about subspace channel management.
 
 ---
 
-### Layer 7: BobNet - the Overlay
+### Layer 7: SUDDAR - Sensors and Observability
+
+SUDDAR (Subspace Deformation Detection and Ranging) is Bob's sensor suite - how he
+perceives what is happening in the space around him beyond his immediate VR environment.
+
+| Bobiverse | Our Stack |
+|-----------|-----------|
+| SUDDAR array on the vessel | Observability sidecar (OTEL collector) |
+| Detecting objects at range | Distributed tracing - seeing what is happening across the system |
+| Signal strength / resolution | Metric granularity, trace sampling rate |
+| SUDDAR sweep / active scan | On-demand profiling, log query |
+| Passive SUDDAR listening | Continuous metric scraping (Prometheus) |
+| Signature analysis (what IS that object?) | Log analysis, anomaly detection |
+| Blind spots / sensor shadows | Gaps in instrumentation, untraced code paths |
+
+SUDDAR is what separates a Bob who knows what is happening from one flying blind. Same
+applies to agents: without observability, you have no idea what the agent is actually
+doing at scale.
+
+---
+
+### Layer 8: BobNet - the Overlay
 
 BobNet is the social/operational layer ON TOP of SCUT. It is how Bobs find each other,
 route work, build consensus, and delegate.
@@ -182,8 +222,8 @@ vessel, register on BobNet. Divergence begins immediately.
 | Bob going dark (silent, busy) | Agent in a long async task, unresponsive to channel |
 | Bob getting bussed (killed) | Bridge crash / session death |
 | Autodoc (self-repair) | Watchdog process, bridge auto-restart |
-| Manufacturing (Bob builds more ships) | CI/CD spinning up new agent deployments |
-| Heaven's River (megastructure) | The platform itself - the substrate everything runs on |
+| Von Neumann replication (Bob builds more probes) | CI/CD spinning up new agent deployments |
+| The megastructure (vast engineered environment) | The platform itself - the substrate everything runs on |
 | The Others (alien adversaries) | Adversarial inputs, prompt injection, rogue tool calls |
 | The Moot | Multi-agent consensus (future work) |
 
@@ -195,11 +235,12 @@ For teams that want to lean into this frame:
 
 | Term | Meaning |
 |------|---------|
-| Heaven-N | A deployed agent instance |
 | Soul file | `agent.md` |
 | Matrix | The model + bridge runtime (together) |
+| Von Neumann platform | Container orchestrator (Kubernetes) - manages instantiation and replication |
 | Moot | Multi-agent consensus mechanism |
-| SCUT | Transport layer (mTLS + SPIFFE) |
+| SCUT | Transport layer (Subspace Communications Universal Transceiver - mTLS + SPIFFE) |
+| SUDDAR | Observability stack (Subspace Deformation Detection and Ranging - OTEL + Prometheus + tracing) |
 | BobNet | Agent registry + routing overlay |
 | Replication | Agent instantiation from an `agent.md` |
 | Mission profile | The vessel config for a specific deployment role |
