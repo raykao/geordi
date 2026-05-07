@@ -40,24 +40,31 @@ substrate at runtime.
 
 ---
 
-### Layer 2b: GUPPI - the Peripheral Interface
+### Layer 2b: GUPPI and AMIs - Sub-Agents
 
-GUPPI (General Unit Primary Peripheral Interface) is the AI system that mediates between
-Bob's consciousness and the ship's physical systems. It is distinct from Bob - it handles
-the interface layer so Bob can focus on thinking.
+AMI (Artificial Machine Intelligence) is the class of AI assistants built to work
+alongside replicants like Bob. They are NOT full replicants - they are purpose-built,
+narrower in scope, and subordinate to Bob's direction. Bob is the primary orchestrator;
+AMIs are the crew he dispatches.
+
+GUPPI is Bob's most intimate AMI - tightly coupled, always present, handling the
+day-to-day interface work so Bob can focus on higher-order thinking.
 
 | Bobiverse | Our Stack |
 |-----------|-----------|
-| GUPPI | copilot-bridge |
-| GUPPI connecting Bob's mind to ship systems | Bridge connecting LLM to tools, filesystem, comms |
-| Bob issuing a command, GUPPI executing it | Agent deciding to call a tool, bridge dispatching it |
-| GUPPI managing ship telemetry | Bridge managing session state, context window, memory injection |
-| GUPPI as a distinct AI from Bob | Bridge is distinct from the LLM - it is the harness, not the intelligence |
-| AMI (Artificial Machine Intelligence) | The class of agent harness systems (copilot-bridge, claude code, etc. are all AMIs) |
+| AMI (class) | Sub-agents broadly - launched via the `task` tool, purpose-built, return results |
+| GUPPI (specific AMI - narrow, always present) | A purpose-built specialist sub-agent (researcher, implement, review, etc.) |
+| Bob directing GUPPI to run calculations | Orchestrator agent launching an `explore` or `task` sub-agent |
+| Multiple AMIs for different functions | Different agent types: researcher, forgemaster, code-review, book-author |
+| Bob as primary orchestrator over AMIs | The orchestrating agent (Geordi, daedalus) managing a fleet of sub-agents |
+| AMI operating within Bob's authority | Sub-agent scoped to the task prompt - no broader agency |
 
-The "General Unit Primary Peripheral Interface" name maps almost literally: bridge is the
-interface between the agent (general unit) and its peripherals (tools, filesystem, SCUT,
-BobNet). Bob doesn't think about how tool calls are dispatched - he just asks GUPPI.
+The key distinction: Bob has full agency, domain ownership, and continuity across
+sessions. AMIs are stateless workers - they are instantiated for a task and complete.
+Bob persists. AMIs are consumed.
+
+Note: copilot-bridge is not an AMI. It is vessel infrastructure - the harness that
+enables both Bob and his AMIs to operate. See Layer 4.
 
 ---
 
@@ -92,6 +99,7 @@ dimension that matters: embodiment in a digital landscape.
 |-----------|-----------|
 | Von Neumann probe chassis | Container / Kubernetes pod |
 | Ship systems (weapons, sensors, propulsion) | Sidecars (Envoy/SPIFFE = SCUT hardware, OTEL collector = SUDDAR suite, Vault agent = secure storage) |
+| Ship's control interface / peripheral harness | copilot-bridge - the harness that wires Bob and AMIs to their tools and environment |
 | Vessel class / blueprint | Pod spec / container image |
 | Power budget | Pod resource limits (CPU, memory) |
 | Vessel destroyed, Bob survives (backup) | Pod destroyed, soul survives (agent.md in git + Beads memories) |
@@ -257,8 +265,9 @@ For teams that want to lean into this frame:
 |------|---------|
 | Soul file | `agent.md` |
 | Matrix | The LLM (intelligence substrate) |
-| GUPPI | copilot-bridge (the peripheral interface between intelligence and tools) |
-| AMI | The class of agent harness systems (copilot-bridge, claude code, etc.) |
+| AMI | Sub-agents broadly - purpose-built, stateless, launched on demand |
+| GUPPI | A specific narrow-scope AMI tightly coupled to Bob's workflow |
+| Bob / replicant | The primary general-purpose orchestrating agent (Geordi, daedalus, etc.) |
 | Von Neumann platform | Container orchestrator (Kubernetes) - manages instantiation and replication |
 | Moot | Multi-agent consensus mechanism |
 | SCUT | Transport layer (Subspace Communications Universal Transceiver - mTLS + SPIFFE) |
