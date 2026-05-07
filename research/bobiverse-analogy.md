@@ -5,7 +5,7 @@ distributed agent infrastructure being built across the bobiverse/daedalus/dark-
 projects. This frame is intended as a thinking tool for architecture, naming, and
 communication - not a strict spec.
 
-Status: **Draft** - VR layer pending one more pass.
+Status: **Current**
 
 ---
 
@@ -43,21 +43,26 @@ literally changing the matrix substrate.
 
 ### Layer 3: The VR Environment
 
-**Status: pending one more pass.**
+| Bobiverse | Our Stack |
+|-----------|-----------|
+| VR environment (Bob's digital world) | OS + filesystem + workspace folder |
+| Bob's sense of place / embodiment | The persistent workspace that survives session death |
+| Objects Bob manipulates | Files, repos, running processes, configs |
+| Bob reaching out from VR to actuate ship systems | Tool calls originating from the workspace |
+| VR physics / laws | Filesystem permissions, available binaries, network access, `AGENTS.md`, `copilot-instructions.md` |
+| Bob's eyes | Playwright - perceiving rendered visual reality |
+| Bob's hands reaching into the external world | REST API calls, `bash` write ops |
+| Bob's touch / local sensing | `view`, `grep`, `glob` - reading the local environment |
+| Bob's memory beyond a single moment | `bd remember` - persisting experience across sessions |
 
-Working hypothesis: the VR environment maps to the workspace folder on the filesystem -
-the persistent space the agent lives in, operates from, and originates tool calls from.
+The VR exists to give Bob *a place to be* and *a way to act* in a world where he no
+longer has a physical body. The OS/workspace does exactly that for the agent.
 
-Key properties that align:
-- Persistent across sessions (unlike context window, which is ephemeral)
-- Bob manipulates objects here: files, repos, running processes
-- Bob reaches out FROM the VR to actuate ship systems: tool calls to external services
-- VR has physics/rules: filesystem permissions, available binaries, network access,
-  `AGENTS.md` and `copilot-instructions.md`
-
-Known strain: in the books VR is generated/simulated by the matrix. The workspace is
-provisioned by infrastructure - it's real, not simulated. This may be an acceptable
-deviation or may suggest a sharper mapping exists.
+The one apparent strain - VR is simulated, workspace is real - dissolves under scrutiny.
+For Bob there is no distinction between simulated and real: the VR IS his reality. He has
+no other. The same is true for the agent: the filesystem IS its world, not a simulation
+of something else. They share the same ontological status. The analogy holds on the
+dimension that matters: embodiment in a digital landscape.
 
 ---
 
