@@ -30,14 +30,34 @@ entities. Same applies here.
 
 | Bobiverse | Our Stack |
 |-----------|-----------|
-| Replicant matrix hardware | copilot-bridge + LLM (together as a distributed system) |
-| Matrix running Bob's full cognition | Bridge manages session, routes tool calls; LLM executes inference |
-| LLM-is-remote caveat | In the books the matrix is local; in our world inference is a remote API call. Treat bridge + LLM as the distributed matrix - the implementation detail of where inference runs doesn't change what the layer does. |
+| Replicant matrix hardware | The LLM (the raw intelligence substrate - runs Bob's cognition) |
+| Switching matrix hardware | Switching model providers (GPT-5 vs Claude Sonnet vs Haiku) |
+| Matrix is remote from the vessel | LLM inference is a remote API call - the intelligence runs in a data center, not in the pod |
 
-The same soul (`agent.md`) running on different matrix configurations (GPT-5 vs Claude
-Sonnet vs Haiku, different bridge versions) will behave meaningfully differently - just
-as Bob would run differently on different matrix hardware. The `/model` switch is
-literally changing the matrix substrate.
+The same soul (`agent.md`) running on different matrix hardware will behave meaningfully
+differently - just as Bob would. The `/model` switch is literally changing the matrix
+substrate at runtime.
+
+---
+
+### Layer 2b: GUPPI - the Peripheral Interface
+
+GUPPI (General Unit Primary Peripheral Interface) is the AI system that mediates between
+Bob's consciousness and the ship's physical systems. It is distinct from Bob - it handles
+the interface layer so Bob can focus on thinking.
+
+| Bobiverse | Our Stack |
+|-----------|-----------|
+| GUPPI | copilot-bridge |
+| GUPPI connecting Bob's mind to ship systems | Bridge connecting LLM to tools, filesystem, comms |
+| Bob issuing a command, GUPPI executing it | Agent deciding to call a tool, bridge dispatching it |
+| GUPPI managing ship telemetry | Bridge managing session state, context window, memory injection |
+| GUPPI as a distinct AI from Bob | Bridge is distinct from the LLM - it is the harness, not the intelligence |
+| AMI (Artificial Machine Intelligence) | The class of agent harness systems (copilot-bridge, claude code, etc. are all AMIs) |
+
+The "General Unit Primary Peripheral Interface" name maps almost literally: bridge is the
+interface between the agent (general unit) and its peripherals (tools, filesystem, SCUT,
+BobNet). Bob doesn't think about how tool calls are dispatched - he just asks GUPPI.
 
 ---
 
@@ -236,7 +256,9 @@ For teams that want to lean into this frame:
 | Term | Meaning |
 |------|---------|
 | Soul file | `agent.md` |
-| Matrix | The model + bridge runtime (together) |
+| Matrix | The LLM (intelligence substrate) |
+| GUPPI | copilot-bridge (the peripheral interface between intelligence and tools) |
+| AMI | The class of agent harness systems (copilot-bridge, claude code, etc.) |
 | Von Neumann platform | Container orchestrator (Kubernetes) - manages instantiation and replication |
 | Moot | Multi-agent consensus mechanism |
 | SCUT | Transport layer (Subspace Communications Universal Transceiver - mTLS + SPIFFE) |
